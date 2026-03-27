@@ -72,6 +72,28 @@ body {
   opacity: 0.8;
 }
 
+.btn-export {
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  background: transparent;
+  color: #33dd88;
+  border: 1px solid #33dd88;
+}
+
+.btn-export:hover {
+  opacity: 0.8;
+}
+
+/* ── Print-only report header (hidden in browser) ── */
+.print-only {
+  display: none;
+}
+
 /* ── Main ── */
 .app-main {
   max-width: 1200px;
@@ -355,4 +377,170 @@ body {
 .tooltip-month {
   color: #9999bb;
   margin-bottom: 0.2rem;
+}
+
+/* ── PDF / Print styles ── */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: #ffffff;
+    color: #1a1a2e;
+  }
+
+  /* Show only the print report header; hide all UI chrome */
+  .print-only        { display: block !important; }
+  .app-header        { display: none !important; }
+  .layout-left       { display: none !important; }
+  .btn-toggle-table  { display: none !important; }
+  .btn-scenario      { display: none !important; }
+  .btn-export        { display: none !important; }
+
+  .app-main {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Flatten the layout to a single column */
+  .layout,
+  .layout.layout-compare {
+    display: block;
+  }
+
+  .layout-right {
+    gap: 1rem;
+  }
+
+  /* White cards */
+  .results-card,
+  .chart-card,
+  .table-card {
+    background: #ffffff;
+    border: 1px solid #d0d0e0;
+    box-shadow: none;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    color: #2563eb;
+    border-bottom-color: #d0d0e0;
+  }
+
+  .scenario-badge {
+    font-weight: 700;
+  }
+
+  /* Metrics */
+  .metrics-grid { gap: 0.75rem; }
+
+  .metric {
+    background: #f4f4f8;
+    border-color: #d0d0e0;
+  }
+
+  .metric-label { color: #555577; }
+
+  .metric-value         { color: #1a1a2e; }
+  .metric-value.positive { color: #0a7a3e; }
+  .metric-value.negative { color: #cc2233; }
+
+  /* Chart SVG overrides */
+  .recharts-cartesian-grid line { stroke: #d0d0e0 !important; }
+  .recharts-text tspan          { fill: #555577 !important; }
+  .recharts-reference-line line { stroke: #999 !important; }
+
+  /* Chart legend */
+  .chart-legend { border-bottom-color: #d0d0e0; }
+  .legend-item  { color: #555577; }
+
+  /* Table */
+  .breakdown-table th {
+    color: #555577;
+    border-bottom-color: #d0d0e0;
+  }
+
+  .breakdown-table td          { color: #333355; }
+  .breakdown-table td:first-child { color: #1a1a2e; }
+
+  .row-even td { background: #f9f9fc; }
+  .row-odd  td { background: #ffffff; }
+
+  .row-breakeven td {
+    background: #e8f8ef;
+    color: #0a7a3e;
+  }
+
+  .breakdown-table td.positive { color: #0a7a3e; }
+  .breakdown-table td.negative { color: #cc2233; }
+
+  /* Results side-by-side in compare mode */
+  .results-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* Print report header styles */
+  .print-report-header {
+    border-bottom: 2px solid #2563eb;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .print-report-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  .print-report-date {
+    font-size: 0.9rem;
+    color: #555577;
+    margin-top: 0.25rem;
+  }
+
+  .print-scenario-summary {
+    margin-bottom: 1rem;
+  }
+
+  .print-scenario-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+
+  .print-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .print-metric {
+    background: #f4f4f8;
+    border: 1px solid #d0d0e0;
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .print-metric span {
+    font-size: 0.7rem;
+    color: #555577;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .print-metric strong {
+    font-size: 1rem;
+    color: #1a1a2e;
+  }
 }

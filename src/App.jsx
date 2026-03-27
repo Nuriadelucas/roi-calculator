@@ -17,14 +17,27 @@ const SCENARIO_META = [
   { label: 'Scenario B', color: '#ff7733' },
 ];
 
+function fmt(n) {
+  const sign = n < 0 ? '-' : '';
+  return sign + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
+}
+
 function App() {
   const [scenarios, setScenarios] = useState([{ ...DEFAULTS }]);
   const [showTable, setShowTable] = useState(false);
+  const [exportDate, setExportDate] = useState('');
 
   const comparing = scenarios.length > 1;
 
   function handleChange(index, field, value) {
     setScenarios(prev => prev.map((s, i) => i === index ? { ...s, [field]: value } : s));
+  }
+
+  function handleExport() {
+    setExportDate(
+      new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    );
+    setTimeout(() => window.print(), 50);
   }
 
   const results = scenarios.map(s => calculateROI(s));
@@ -51,11 +64,48 @@ function App() {
                 ✕ Remove Scenario B
               </button>
             )}
+            <button className="btn-export" onClick={handleExport}>
+              ↓ Export PDF
+            </button>
           </div>
         </div>
       </header>
 
       <main className="app-main">
+        <div className="print-only">
+          <div className="print-report-header">
+            <h1 className="print-report-title">ROI Analysis Report</h1>
+            <p className="print-report-date">{exportDate}</p>
+          </div>
+          {results.map((r, i) => (
+            <div key={i} className="print-scenario-summary">
+              {comparing && (
+                <h2 className="print-scenario-label" style={{ color: SCENARIO_META[i].color }}>
+                  {SCENARIO_META[i].label}
+                </h2>
+              )}
+              <div className="print-metrics">
+                <div className="print-metric">
+                  <span>ROI</span>
+                  <strong>{r.roiPercent.toFixed(1)}%</strong>
+                </div>
+                <div className="print-metric">
+                  <span>Payback Period</span>
+                  <strong>{r.paybackPeriod === null ? 'Never' : `${r.paybackPeriod} months`}</strong>
+                </div>
+                <div className="print-metric">
+                  <span>Total Net Profit</span>
+                  <strong>{fmt(r.totalNetProfit)}</strong>
+                </div>
+                <div className="print-metric">
+                  <span>Monthly Net Profit</span>
+                  <strong>{fmt(r.monthlyNetProfit)}</strong>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className={`layout${comparing ? ' layout-compare' : ''}`}>
           <div className="layout-left">
             {scenarios.map((s, i) => (
