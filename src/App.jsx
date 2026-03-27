@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputForm from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
@@ -26,6 +26,11 @@ function App() {
   const [scenarios, setScenarios] = useState([{ ...DEFAULTS }]);
   const [showTable, setShowTable] = useState(false);
   const [exportDate, setExportDate] = useState('');
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.className = isDark ? '' : 'light';
+  }, [isDark]);
 
   const comparing = scenarios.length > 1;
 
@@ -64,6 +69,9 @@ function App() {
                 ✕ Remove Scenario B
               </button>
             )}
+            <button className="btn-theme" onClick={() => setIsDark(prev => !prev)}>
+              {isDark ? '☀ Light' : '☾ Dark'}
+            </button>
             <button className="btn-export" onClick={handleExport}>
               ↓ Export PDF
             </button>
@@ -131,6 +139,7 @@ function App() {
               ))}
             </div>
             <CashFlowChart
+              isDark={isDark}
               datasets={results.map((r, i) => ({
                 data: r.cashFlowData,
                 color: SCENARIO_META[i].color,

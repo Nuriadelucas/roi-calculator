@@ -1,3 +1,58 @@
+/* ─────────────────────────────────────────────
+   Theme variables
+   ───────────────────────────────────────────── */
+:root {
+  /* Dark theme (default) */
+  --bg-page:          #0d0d1a;
+  --bg-card:          #1a1a2e;
+  --bg-input:         #0d0d1a;
+  --bg-metric:        #0d0d1a;
+  --bg-row-even:      #141428;
+  --bg-row-odd:       #1a1a2e;
+  --bg-breakeven:     rgba(51, 221, 136, 0.1);
+  --border:           #2a2a4a;
+  --text-primary:     #e0e0f0;
+  --text-secondary:   #9999bb;
+  --text-muted:       #7777aa;
+  --accent:           #3399ff;
+  --positive:         #33dd88;
+  --negative:         #ff5566;
+  --breakeven-text:   #33dd88;
+  --table-td:         #c0c0d8;
+  --table-td-first:   #e0e0f0;
+  --legend-text:      #9999bb;
+  --tooltip-bg:       #1a1a2e;
+  --tooltip-border:   #3399ff;
+  --card-shadow:      0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+:root.light {
+  --bg-page:          #f0f4f8;
+  --bg-card:          #ffffff;
+  --bg-input:         #f4f6fa;
+  --bg-metric:        #f4f6fa;
+  --bg-row-even:      #f4f6fa;
+  --bg-row-odd:       #ffffff;
+  --bg-breakeven:     rgba(22, 163, 74, 0.08);
+  --border:           #dde1ec;
+  --text-primary:     #1a1a2e;
+  --text-secondary:   #4a4a6a;
+  --text-muted:       #8888aa;
+  --accent:           #2563eb;
+  --positive:         #16a34a;
+  --negative:         #dc2626;
+  --breakeven-text:   #16a34a;
+  --table-td:         #333355;
+  --table-td-first:   #1a1a2e;
+  --legend-text:      #4a4a6a;
+  --tooltip-bg:       #ffffff;
+  --tooltip-border:   #2563eb;
+  --card-shadow:      0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ─────────────────────────────────────────────
+   Reset & base
+   ───────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -6,16 +61,18 @@
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #0d0d1a;
-  color: #e0e0f0;
+  background: var(--bg-page);
+  color: var(--text-primary);
   min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
 }
 
 /* ── Header ── */
 .app-header {
   background: #1a1a2e;
-  border-bottom: 2px solid #3399ff;
+  border-bottom: 2px solid var(--accent);
   padding: 1rem 2rem;
+  transition: border-color 0.2s;
 }
 
 .header-inner {
@@ -27,13 +84,14 @@ body {
 }
 
 .header-logo {
-  background: #3399ff;
+  background: var(--accent);
   color: #fff;
   font-weight: 800;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   padding: 0.25rem 0.6rem;
   border-radius: 3px;
+  transition: background 0.2s;
 }
 
 .header-title {
@@ -44,8 +102,12 @@ body {
 
 .header-actions {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
+/* Header buttons — always on dark header, so fixed colors */
 .btn-scenario {
   padding: 0.45rem 1rem;
   border-radius: 6px;
@@ -57,20 +119,18 @@ body {
 }
 
 .btn-add {
-  background: #3399ff;
+  background: var(--accent);
   color: #fff;
   border: none;
 }
 
 .btn-remove {
   background: transparent;
-  color: #9999bb;
-  border: 1px solid #2a2a4a;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.btn-scenario:hover {
-  opacity: 0.8;
-}
+.btn-scenario:hover { opacity: 0.8; }
 
 .btn-export {
   padding: 0.45rem 1rem;
@@ -85,13 +145,25 @@ body {
   border: 1px solid #33dd88;
 }
 
-.btn-export:hover {
-  opacity: 0.8;
+.btn-export:hover { opacity: 0.8; }
+
+.btn-theme {
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
 }
 
-/* ── Print-only report header (hidden in browser) ── */
-.print-only {
-  display: none;
+.btn-theme:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* ── Main ── */
@@ -115,7 +187,7 @@ body {
   gap: 1.5rem;
 }
 
-/* ── Compare layout (two scenarios) ── */
+/* ── Compare layout ── */
 .layout.layout-compare {
   grid-template-columns: 1fr;
 }
@@ -134,36 +206,33 @@ body {
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
+  .layout { grid-template-columns: 1fr; }
   .layout.layout-compare .layout-left,
-  .results-compare {
-    grid-template-columns: 1fr;
-  }
+  .results-compare { grid-template-columns: 1fr; }
 }
 
 /* ── Cards ── */
 .form-card,
 .results-card,
 .chart-card {
-  background: #1a1a2e;
-  border: 1px solid #2a2a4a;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .card-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #3399ff;
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
 }
 
 /* ── Scenario badge ── */
@@ -176,47 +245,52 @@ body {
 }
 
 /* ── Form fields ── */
-.field {
-  margin-bottom: 1.1rem;
-}
+.field { margin-bottom: 1.1rem; }
 
 .field label {
   display: block;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #9999bb;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.4rem;
+  transition: color 0.2s;
 }
 
 .field input,
 .field select {
   width: 100%;
   padding: 0.6rem 0.85rem;
-  background: #0d0d1a;
-  border: 1px solid #2a2a4a;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
   border-radius: 6px;
-  color: #e0e0f0;
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-family: inherit;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.2s, color 0.2s;
   appearance: none;
 }
 
 .field input:focus,
 .field select:focus {
   outline: none;
-  border-color: #3399ff;
+  border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.15);
 }
 
+/* Dark theme select arrow */
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%233399ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.8rem center;
   padding-right: 2rem;
   cursor: pointer;
+}
+
+/* Light theme select arrow */
+:root.light .field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232563eb' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
 }
 
 /* ── Results metrics grid ── */
@@ -227,36 +301,34 @@ body {
 }
 
 .metric {
-  background: #0d0d1a;
-  border: 1px solid #2a2a4a;
+  background: var(--bg-metric);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .metric-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #7777aa;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  transition: color 0.2s;
 }
 
 .metric-value {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #e0e0f0;
+  color: var(--text-primary);
+  transition: color 0.2s;
 }
 
-.metric-value.positive {
-  color: #33dd88;
-}
-
-.metric-value.negative {
-  color: #ff5566;
-}
+.metric-value.positive { color: var(--positive); }
+.metric-value.negative { color: var(--negative); }
 
 /* ── Chart legend ── */
 .chart-legend {
@@ -271,7 +343,8 @@ body {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.8rem;
-  color: #9999bb;
+  color: var(--legend-text);
+  transition: color 0.2s;
 }
 
 .legend-dot {
@@ -286,9 +359,9 @@ body {
   width: 100%;
   padding: 0.6rem 1rem;
   background: transparent;
-  border: 1px dashed #2a2a4a;
+  border: 1px dashed var(--border);
   border-radius: 8px;
-  color: #7777aa;
+  color: var(--text-muted);
   font-size: 0.85rem;
   font-family: inherit;
   cursor: pointer;
@@ -296,22 +369,21 @@ body {
 }
 
 .btn-toggle-table:hover {
-  border-color: #3399ff;
-  color: #3399ff;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ── Monthly breakdown table ── */
 .table-card {
-  background: #1a1a2e;
-  border: 1px solid #2a2a4a;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow);
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.table-scroll {
-  overflow-x: auto;
-}
+.table-scroll { overflow-x: auto; }
 
 .breakdown-table {
   width: 100%;
@@ -324,60 +396,65 @@ body {
   padding: 0.6rem 1rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #7777aa;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid var(--border);
   white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
 }
 
-.breakdown-table th:first-child {
-  text-align: left;
-}
+.breakdown-table th:first-child { text-align: left; }
 
 .breakdown-table td {
   text-align: right;
   padding: 0.55rem 1rem;
-  color: #c0c0d8;
+  color: var(--table-td);
   white-space: nowrap;
+  transition: color 0.2s, background 0.2s;
 }
 
 .breakdown-table td:first-child {
   text-align: left;
   font-weight: 600;
-  color: #e0e0f0;
+  color: var(--table-td-first);
 }
 
-.row-even td { background: #141428; }
-.row-odd  td { background: #1a1a2e; }
+.row-even td { background: var(--bg-row-even); }
+.row-odd  td { background: var(--bg-row-odd); }
 
 .row-breakeven td {
-  background: rgba(51, 221, 136, 0.1);
-  color: #33dd88;
+  background: var(--bg-breakeven);
+  color: var(--breakeven-text);
   font-weight: 600;
 }
 
 .row-breakeven td:first-child::after {
-  content: ' ✓';
+  content: ' \2713';
   font-size: 0.75rem;
 }
 
-.breakdown-table td.positive { color: #33dd88; }
-.breakdown-table td.negative { color: #ff5566; }
+.breakdown-table td.positive { color: var(--positive); }
+.breakdown-table td.negative { color: var(--negative); }
 
 /* ── Chart tooltip ── */
 .chart-tooltip {
-  background: #1a1a2e;
-  border: 1px solid #3399ff;
+  background: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .tooltip-month {
-  color: #9999bb;
+  color: var(--text-secondary);
   margin-bottom: 0.2rem;
+  transition: color 0.2s;
 }
+
+/* ── Print-only report header (hidden in browser) ── */
+.print-only { display: none; }
 
 /* ── PDF / Print styles ── */
 @media print {
@@ -391,30 +468,21 @@ body {
     color: #1a1a2e;
   }
 
-  /* Show only the print report header; hide all UI chrome */
   .print-only        { display: block !important; }
   .app-header        { display: none !important; }
   .layout-left       { display: none !important; }
   .btn-toggle-table  { display: none !important; }
   .btn-scenario      { display: none !important; }
   .btn-export        { display: none !important; }
+  .btn-theme         { display: none !important; }
 
-  .app-main {
-    margin: 0;
-    padding: 0;
-  }
+  .app-main { margin: 0; padding: 0; }
 
-  /* Flatten the layout to a single column */
   .layout,
-  .layout.layout-compare {
-    display: block;
-  }
+  .layout.layout-compare { display: block; }
 
-  .layout-right {
-    gap: 1rem;
-  }
+  .layout-right { gap: 1rem; }
 
-  /* White cards */
   .results-card,
   .chart-card,
   .table-card {
@@ -425,66 +493,36 @@ body {
     margin-bottom: 1rem;
   }
 
-  .card-title {
-    color: #2563eb;
-    border-bottom-color: #d0d0e0;
-  }
-
-  .scenario-badge {
-    font-weight: 700;
-  }
-
-  /* Metrics */
-  .metrics-grid { gap: 0.75rem; }
-
-  .metric {
-    background: #f4f4f8;
-    border-color: #d0d0e0;
-  }
-
-  .metric-label { color: #555577; }
-
-  .metric-value         { color: #1a1a2e; }
+  .card-title    { color: #2563eb; border-bottom-color: #d0d0e0; }
+  .metrics-grid  { gap: 0.75rem; }
+  .metric        { background: #f4f4f8; border-color: #d0d0e0; }
+  .metric-label  { color: #555577; }
+  .metric-value  { color: #1a1a2e; }
   .metric-value.positive { color: #0a7a3e; }
   .metric-value.negative { color: #cc2233; }
 
-  /* Chart SVG overrides */
   .recharts-cartesian-grid line { stroke: #d0d0e0 !important; }
   .recharts-text tspan          { fill: #555577 !important; }
   .recharts-reference-line line { stroke: #999 !important; }
 
-  /* Chart legend */
-  .chart-legend { border-bottom-color: #d0d0e0; }
-  .legend-item  { color: #555577; }
+  .chart-legend  { border-bottom-color: #d0d0e0; }
+  .legend-item   { color: #555577; }
 
-  /* Table */
-  .breakdown-table th {
-    color: #555577;
-    border-bottom-color: #d0d0e0;
-  }
-
-  .breakdown-table td          { color: #333355; }
+  .breakdown-table th   { color: #555577; border-bottom-color: #d0d0e0; }
+  .breakdown-table td   { color: #333355; }
   .breakdown-table td:first-child { color: #1a1a2e; }
-
-  .row-even td { background: #f9f9fc; }
-  .row-odd  td { background: #ffffff; }
-
-  .row-breakeven td {
-    background: #e8f8ef;
-    color: #0a7a3e;
-  }
-
+  .row-even td   { background: #f9f9fc; }
+  .row-odd  td   { background: #ffffff; }
+  .row-breakeven td     { background: #e8f8ef; color: #0a7a3e; }
   .breakdown-table td.positive { color: #0a7a3e; }
   .breakdown-table td.negative { color: #cc2233; }
 
-  /* Results side-by-side in compare mode */
   .results-compare {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
 
-  /* Print report header styles */
   .print-report-header {
     border-bottom: 2px solid #2563eb;
     margin-bottom: 1.5rem;
@@ -503,9 +541,7 @@ body {
     margin-top: 0.25rem;
   }
 
-  .print-scenario-summary {
-    margin-bottom: 1rem;
-  }
+  .print-scenario-summary { margin-bottom: 1rem; }
 
   .print-scenario-label {
     font-size: 0.9rem;
@@ -532,15 +568,6 @@ body {
     gap: 0.2rem;
   }
 
-  .print-metric span {
-    font-size: 0.7rem;
-    color: #555577;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .print-metric strong {
-    font-size: 1rem;
-    color: #1a1a2e;
-  }
+  .print-metric span   { font-size: 0.7rem; color: #555577; text-transform: uppercase; letter-spacing: 0.04em; }
+  .print-metric strong { font-size: 1rem; color: #1a1a2e; }
 }

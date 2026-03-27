@@ -46,9 +46,14 @@ function CustomTooltip({ active, payload, label, datasets }) {
   );
 }
 
-function CashFlowChart({ datasets }) {
+function CashFlowChart({ datasets, isDark = true }) {
   const merged = mergeDatasets(datasets);
   const multiline = datasets.length > 1;
+
+  const gridColor = isDark ? '#2a2a4a' : '#dde1ec';
+  const axisColor = isDark ? '#8888aa' : '#666688';
+  const refColor  = isDark ? '#666688' : '#aaaaaa';
+  const dotStroke = isDark ? '#1a1a2e' : '#ffffff';
 
   return (
     <div className="chart-card">
@@ -65,21 +70,21 @@ function CashFlowChart({ datasets }) {
       )}
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={merged} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#2a2a4a" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="month"
-            stroke="#8888aa"
-            tick={{ fill: '#8888aa', fontSize: 12 }}
-            label={{ value: 'Month', position: 'insideBottom', offset: -2, fill: '#8888aa', fontSize: 12 }}
+            stroke={axisColor}
+            tick={{ fill: axisColor, fontSize: 12 }}
+            label={{ value: 'Month', position: 'insideBottom', offset: -2, fill: axisColor, fontSize: 12 }}
           />
           <YAxis
-            stroke="#8888aa"
-            tick={{ fill: '#8888aa', fontSize: 12 }}
+            stroke={axisColor}
+            tick={{ fill: axisColor, fontSize: 12 }}
             tickFormatter={formatDollar}
             width={70}
           />
           <Tooltip content={<CustomTooltip datasets={datasets} />} />
-          <ReferenceLine y={0} stroke="#666688" strokeDasharray="6 3" strokeWidth={1.5} />
+          <ReferenceLine y={0} stroke={refColor} strokeDasharray="6 3" strokeWidth={1.5} />
           {datasets.map((d, i) => (
             <Line
               key={i}
@@ -88,7 +93,7 @@ function CashFlowChart({ datasets }) {
               stroke={d.color}
               strokeWidth={2.5}
               dot={false}
-              activeDot={{ r: 5, fill: d.color, stroke: '#1a1a2e', strokeWidth: 2 }}
+              activeDot={{ r: 5, fill: d.color, stroke: dotStroke, strokeWidth: 2 }}
             />
           ))}
         </LineChart>
