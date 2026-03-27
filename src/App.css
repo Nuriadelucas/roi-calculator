@@ -147,6 +147,21 @@ body {
 
 .btn-export:hover { opacity: 0.8; }
 
+.btn-embed {
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  background: transparent;
+  color: #bb88ff;
+  border: 1px solid #bb88ff;
+}
+
+.btn-embed:hover { opacity: 0.8; }
+
 .btn-theme {
   padding: 0.45rem 0.9rem;
   border-radius: 6px;
@@ -453,6 +468,109 @@ body {
   transition: color 0.2s;
 }
 
+/* ── Embed modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+.modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.modal-close:hover { color: var(--text-primary); }
+
+.embed-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.embed-code {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+  user-select: all;
+}
+
+.embed-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.embed-preview-link {
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.embed-preview-link:hover { text-decoration: underline; }
+
+.btn-copy {
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  transition: opacity 0.15s, background 0.2s;
+}
+
+.btn-copy:hover { opacity: 0.85; }
+
+.btn-copy-success {
+  background: var(--positive);
+}
+
 /* ── Print-only report header (hidden in browser) ── */
 .print-only { display: none; }
 
@@ -475,6 +593,7 @@ body {
   .btn-scenario      { display: none !important; }
   .btn-export        { display: none !important; }
   .btn-theme         { display: none !important; }
+  .btn-embed         { display: none !important; }
 
   .app-main { margin: 0; padding: 0; }
 

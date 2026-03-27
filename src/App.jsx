@@ -3,6 +3,7 @@ import InputForm from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import MonthlyTable from './components/MonthlyTable';
+import EmbedModal from './components/EmbedModal';
 import { calculateROI } from './utils/calculations';
 
 const DEFAULTS = {
@@ -27,6 +28,7 @@ function App() {
   const [showTable, setShowTable] = useState(false);
   const [exportDate, setExportDate] = useState('');
   const [isDark, setIsDark] = useState(true);
+  const [showEmbed, setShowEmbed] = useState(false);
 
   useEffect(() => {
     document.documentElement.className = isDark ? '' : 'light';
@@ -49,6 +51,7 @@ function App() {
 
   return (
     <div className="app">
+      {showEmbed && <EmbedModal onClose={() => setShowEmbed(false)} />}
       <header className="app-header">
         <div className="header-inner">
           <span className="header-logo">EPAM</span>
@@ -71,6 +74,9 @@ function App() {
             )}
             <button className="btn-theme" onClick={() => setIsDark(prev => !prev)}>
               {isDark ? '☀ Light' : '☾ Dark'}
+            </button>
+            <button className="btn-embed" onClick={() => setShowEmbed(true)}>
+              &lt;/&gt; Embed
             </button>
             <button className="btn-export" onClick={handleExport}>
               ↓ Export PDF
