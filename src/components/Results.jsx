@@ -3,9 +3,12 @@ function fmt(n) {
   return sign + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
 }
 
-function Results({ roiPercent, paybackPeriod, totalNetProfit, monthlyNetProfit }) {
+function Results({ roiPercent, paybackPeriod, totalNetProfit, monthlyNetProfit, label, color }) {
   return (
-    <div className="results-card">
+    <div className="results-card" style={color ? { borderTop: `3px solid ${color}` } : {}}>
+      {label && (
+        <div className="scenario-badge" style={{ color }}>{label}</div>
+      )}
       <h2 className="card-title">Results</h2>
       <div className="metrics-grid">
         <div className="metric">

@@ -1,6 +1,9 @@
-function InputForm({ values, onChange }) {
+function InputForm({ values, onChange, label, color }) {
   return (
-    <div className="form-card">
+    <div className="form-card" style={color ? { borderTop: `3px solid ${color}` } : {}}>
+      {label && (
+        <div className="scenario-badge" style={{ color }}>{label}</div>
+      )}
       <h2 className="card-title">Investment Parameters</h2>
 
       <div className="field">

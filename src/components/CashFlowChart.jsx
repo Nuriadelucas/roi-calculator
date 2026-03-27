@@ -16,27 +16,55 @@ function formatDollar(value) {
   return '$' + value.toLocaleString('en-US');
 }
 
-function CustomTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
-    const value = payload[0].value;
-    return (
-      <div className="chart-tooltip">
-        <p className="tooltip-month">Month {label}</p>
-        <p className={value >= 0 ? 'tooltip-positive' : 'tooltip-negative'}>
-          {value < 0 ? '-' : ''}${Math.abs(Math.round(value)).toLocaleString('en-US')}
-        </p>
-      </div>
-    );
-  }
-  return null;
+function mergeDatasets(datasets) {
+  const maxLen = Math.max(...datasets.map(d => d.data.length));
+  return Array.from({ length: maxLen }, (_, i) => {
+    const point = { month: i + 1 };
+    datasets.forEach((d, j) => {
+      if (i < d.data.length) point[`cf${j}`] = d.data[i].cashFlow;
+    });
+    return point;
+  });
 }
 
-function CashFlowChart({ data }) {
+function CustomTooltip({ active, payload, label, datasets }) {
+  if (!active || !payload?.length) return null;
+  const multiline = datasets.length > 1;
+  return (
+    <div className="chart-tooltip">
+      <p className="tooltip-month">Month {label}</p>
+      {payload.map((entry, i) => {
+        const v = entry.value;
+        return (
+          <p key={i} style={{ color: entry.stroke, fontWeight: 600, marginTop: '2px' }}>
+            {multiline && datasets[i]?.label ? `${datasets[i].label}: ` : ''}
+            {v < 0 ? '-' : ''}${Math.abs(Math.round(v)).toLocaleString('en-US')}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+function CashFlowChart({ datasets }) {
+  const merged = mergeDatasets(datasets);
+  const multiline = datasets.length > 1;
+
   return (
     <div className="chart-card">
       <h2 className="card-title">Cumulative Cash Flow</h2>
+      {multiline && (
+        <div className="chart-legend">
+          {datasets.map((d, i) => (
+            <span key={i} className="legend-item">
+              <span className="legend-dot" style={{ background: d.color }} />
+              {d.label}
+            </span>
+          ))}
+        </div>
+      )}
       <ResponsiveContainer width="100%" height={280}>
-        <LineChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+        <LineChart data={merged} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#2a2a4a" />
           <XAxis
             dataKey="month"
@@ -50,16 +78,19 @@ function CashFlowChart({ data }) {
             tickFormatter={formatDollar}
             width={70}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip datasets={datasets} />} />
           <ReferenceLine y={0} stroke="#666688" strokeDasharray="6 3" strokeWidth={1.5} />
-          <Line
-            type="monotone"
-            dataKey="cashFlow"
-            stroke="#3399ff"
-            strokeWidth={2.5}
-            dot={false}
-            activeDot={{ r: 5, fill: '#3399ff', stroke: '#1a1a2e', strokeWidth: 2 }}
-          />
+          {datasets.map((d, i) => (
+            <Line
+              key={i}
+              type="monotone"
+              dataKey={`cf${i}`}
+              stroke={d.color}
+              strokeWidth={2.5}
+              dot={false}
+              activeDot={{ r: 5, fill: d.color, stroke: '#1a1a2e', strokeWidth: 2 }}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     </div>
