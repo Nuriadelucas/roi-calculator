@@ -6,6 +6,194 @@
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  color: #333;
-  background: #fff;
+  background: #0d0d1a;
+  color: #e0e0f0;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.app-header {
+  background: #1a1a2e;
+  border-bottom: 2px solid #3399ff;
+  padding: 1rem 2rem;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  background: #3399ff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ── Main ── */
+.app-main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Two-column layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.layout-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Cards ── */
+.form-card,
+.results-card,
+.chart-card {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4a;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3399ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+/* ── Form fields ── */
+.field {
+  margin-bottom: 1.1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #9999bb;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  background: #0d0d1a;
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  color: #e0e0f0;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: #3399ff;
+  box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.15);
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%233399ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+
+/* ── Results metrics grid ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.metric {
+  background: #0d0d1a;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #7777aa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e0e0f0;
+}
+
+.metric-value.positive {
+  color: #33dd88;
+}
+
+.metric-value.negative {
+  color: #ff5566;
+}
+
+/* ── Chart tooltip ── */
+.chart-tooltip {
+  background: #1a1a2e;
+  border: 1px solid #3399ff;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.tooltip-month {
+  color: #9999bb;
+  margin-bottom: 0.2rem;
+}
+
+.tooltip-positive {
+  color: #33dd88;
+  font-weight: 600;
+}
+
+.tooltip-negative {
+  color: #ff5566;
+  font-weight: 600;
 }
