@@ -2,6 +2,7 @@ import { useState } from 'react';
 import InputForm from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
+import MonthlyTable from './components/MonthlyTable';
 import { calculateROI } from './utils/calculations';
 
 const DEFAULTS = {
@@ -18,6 +19,7 @@ const SCENARIO_META = [
 
 function App() {
   const [scenarios, setScenarios] = useState([{ ...DEFAULTS }]);
+  const [showTable, setShowTable] = useState(false);
 
   const comparing = scenarios.length > 1;
 
@@ -85,6 +87,21 @@ function App() {
                 label: comparing ? SCENARIO_META[i].label : null,
               }))}
             />
+            <button
+              className="btn-toggle-table"
+              onClick={() => setShowTable(prev => !prev)}
+            >
+              {showTable ? 'Hide Table' : 'Show Monthly Breakdown'}
+            </button>
+            {showTable && results.map((r, i) => (
+              <MonthlyTable
+                key={i}
+                data={r.cashFlowData}
+                paybackPeriod={r.paybackPeriod}
+                label={comparing ? SCENARIO_META[i].label : null}
+                color={comparing ? SCENARIO_META[i].color : null}
+              />
+            ))}
           </div>
         </div>
       </main>

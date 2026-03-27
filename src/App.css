@@ -259,6 +259,90 @@ body {
   flex-shrink: 0;
 }
 
+/* ── Toggle table button ── */
+.btn-toggle-table {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: 1px dashed #2a2a4a;
+  border-radius: 8px;
+  color: #7777aa;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-toggle-table:hover {
+  border-color: #3399ff;
+  color: #3399ff;
+}
+
+/* ── Monthly breakdown table ── */
+.table-card {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4a;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.breakdown-table th {
+  text-align: right;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #7777aa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #2a2a4a;
+  white-space: nowrap;
+}
+
+.breakdown-table th:first-child {
+  text-align: left;
+}
+
+.breakdown-table td {
+  text-align: right;
+  padding: 0.55rem 1rem;
+  color: #c0c0d8;
+  white-space: nowrap;
+}
+
+.breakdown-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: #e0e0f0;
+}
+
+.row-even td { background: #141428; }
+.row-odd  td { background: #1a1a2e; }
+
+.row-breakeven td {
+  background: rgba(51, 221, 136, 0.1);
+  color: #33dd88;
+  font-weight: 600;
+}
+
+.row-breakeven td:first-child::after {
+  content: ' ✓';
+  font-size: 0.75rem;
+}
+
+.breakdown-table td.positive { color: #33dd88; }
+.breakdown-table td.negative { color: #ff5566; }
+
 /* ── Chart tooltip ── */
 .chart-tooltip {
   background: #1a1a2e;

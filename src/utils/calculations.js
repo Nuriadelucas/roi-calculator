@@ -6,6 +6,9 @@ export function calculateROI({ initialInvestment, monthlyRevenue, monthlyCosts, 
 
   const cashFlowData = Array.from({ length: period }, (_, i) => ({
     month: i + 1,
+    revenue: monthlyRevenue,
+    costs: monthlyCosts,
+    netProfit: monthlyNetProfit,
     cashFlow: monthlyNetProfit * (i + 1) - initialInvestment,
   }));
 
